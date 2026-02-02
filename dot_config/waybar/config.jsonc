@@ -1,0 +1,81 @@
+{
+  "position": "top",
+  "modules-left": [],
+  "modules-center": [
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "tray",
+    "bluetooth",
+    "network",
+    "pulseaudio",
+    "clock",
+    "custom/power"
+  ],
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "ignore-workspaces": [
+      "10"
+    ],
+    "format-icons": {
+      "default": "",
+      "active": ""
+    }
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 10
+  },
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    //"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    //"format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+  "network": {
+    "format-wifi": "{icon}",
+    "format-icons": {
+      "wifi": [
+        "󰤯",
+        "󰤟",
+        "󰤢",
+        "󰤥",
+        "󰤨"
+      ]
+    },
+    "format-ethernet": "󰈀",
+    "format-linked": "󰤫",
+    "format-disconnected": "󰤭",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-linked": "{ifname} 󰤫",
+    "on-click": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "󰝟",
+    "format-icons": {
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "on-click": "pavucontrol",
+    "tooltip-format": "{volume}%"
+  },
+  "clock": {
+    "format": "󰅐 {:%H:%M}",
+    "tooltip-format": "{:%Y %B %d}"
+  },
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": false,
+    "on-click": "wlogout --protocol layer-shell"
+  }
+}

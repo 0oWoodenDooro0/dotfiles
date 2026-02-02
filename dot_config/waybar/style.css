@@ -1,0 +1,103 @@
+@import "mocha.css";
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: JetBrainsMono Nerd Font;
+  font-size: 16px;
+  min-height: 0;
+  min-width: 0;
+}
+
+#waybar {
+  background: transparent;
+  color: @text;
+}
+
+#window {
+  border-radius: 1rem;
+  background-color: @surface0;
+  margin: 5px;
+  padding: 0 1rem;
+}
+
+window#waybar.empty #window{
+  background-color: transparent;
+}
+
+#workspaces {
+  border-radius: 1rem;
+  margin: 5px;
+  background: @surface0;
+  padding: 0 0.5rem;
+}
+
+#workspaces button {
+  border-radius: 5rem;
+  background: @rosewater;
+  min-width: 0.4rem;
+  min-height: 0.4rem;
+  margin: 1rem 0.5rem;
+}
+
+#workspaces button label {
+  font-size: 0;
+}
+
+#workspaces button.active {
+  border-radius: 1rem;
+  background: @pink;
+  min-width: 3rem;
+  min-height: 0.4rem;
+}
+
+#workspaces button:hover {
+  color: @pink;
+}
+
+#tray,
+#bluetooth,
+#network,
+#pulseaudio,
+#clock {
+  background: @surface0;
+  padding: 0.5rem;
+  margin: 5px 0;
+}
+
+#clock {
+  color: @sky;
+  font-weight: bold;
+  border-radius: 0px 1rem 1rem 0px;
+  margin-right: 0.5rem; 
+  padding-right: 1rem;
+}
+
+#pulseaudio {
+  color: @green;
+}
+
+#network {
+  color: @yellow;
+}
+
+#bluetooth {
+  color: @peach;
+  border-radius: 1rem 0px 0px 1rem;
+  padding-left: 1rem;
+}
+
+#custom-power{
+  color: @sapphire;
+  background: @surface0;
+  padding: 0.5rem 1rem;
+  margin: 5px 0;
+  border-radius: 3rem;
+  margin-right: 0.5rem;
+}
+
+#tray {
+  border-radius: 1rem;
+  padding: 0 1rem;
+  margin-right: 0.5rem;
+}
