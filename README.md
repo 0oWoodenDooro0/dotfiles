@@ -39,7 +39,7 @@ Ensure you have `git` and `chezmoi` installed on your system. You will also need
 Use `chezmoi` to clone and apply the configurations in one go:
 
 ```bash
-chezmoi init --apply https://github.com/YOUR_USERNAME/dotfiles.git
+chezmoi init --apply https://github.com/0oWoodenDooro0/dotfiles.git
 ```
 
 ### 3. Post-Installation
