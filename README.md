@@ -48,20 +48,28 @@ chezmoi init --apply https://github.com/0oWoodenDooro0/dotfiles.git
 
 ## 📂 Structure
 
-Here is a brief overview of the configuration mapping:
+Here is a brief overview of the configuration mapping. The project now uses `chezmoi` templates extensively to modularize configurations.
 
 ```text
 ~/.local/share/chezmoi/
-├── dot_zshrc               # Zsh configuration
-├── dot_config/
+├── .chezmoitemplates/      # Reusable configuration templates
+│   ├── gemini/             # Gemini templates
+│   ├── ghostty/            # Ghostty templates
+│   ├── hypr/               # Hyprland ecosystem templates
+│   ├── nvim/               # Neovim templates
+│   ├── starship/           # Starship prompt templates
+│   ├── zsh/                # Zsh templates
+│   └── ...                 # Other application templates
+├── dot_zshrc.tmpl          # Zsh configuration template
+├── dot_config/             # Configuration templates mapping to .chezmoitemplates
 │   ├── ghostty/            # Terminal config & themes
 │   ├── hypr/               # Hyprland, Hyprlock, Hypridle
 │   ├── nvim/               # Neovim (LazyVim)
 │   ├── tmux/               # Tmux settings
 │   ├── waybar/             # Status bar config & styling
 │   ├── yazi/               # File manager theme
-│   └── ...                 # Other configs (rofi, wlogout, lazygit)
-└── dot_gemini/             # AI assistant settings
+│   └── ...
+└── dot_gemini/             # AI assistant settings templates
 ```
 
 ## ⌨️ Keybindings
