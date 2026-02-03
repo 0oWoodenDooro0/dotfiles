@@ -1,0 +1,5 @@
+{{ if ne .chezmoi.os "linux" }}
+dot_config
+dot_zshrc.tmpl
+dot_gemini
+{{ end }}

@@ -52,6 +52,7 @@ Here is a brief overview of the configuration mapping. The project now uses `che
 
 ```text
 ~/.local/share/chezmoi/
+├── .chezmoiignore          # Ignore rules (e.g., skip Linux configs on other OSs)
 ├── .chezmoitemplates/      # Reusable configuration templates
 │   ├── gemini/             # Gemini templates
 │   ├── ghostty/            # Ghostty templates
