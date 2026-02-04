@@ -28,7 +28,7 @@ This setup configures the following tools:
 *   **[Neovim](https://neovim.io/):** Powered by [LazyVim](https://www.lazyvim.org/) for a full IDE experience.
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager.
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
-*   **Gemini CLI:** Configurations for Google's AI assistant CLI.
+*   **Gemini CLI:** AI assistant configuration with custom skills for Obsidian Markdown, JSON Canvas, and Obsidian Bases.
 
 ### Browsers
 *   **[Zen Browser](https://www.zen-browser.app/):** Firefox-based browser with cohesive Catppuccin Mocha CSS themes.
@@ -57,7 +57,7 @@ Here is a brief overview of the configuration mapping. The project now uses `che
 ~/.local/share/chezmoi/
 ├── .chezmoiignore          # Ignore rules (e.g., skip Linux configs on other OSs)
 ├── .chezmoitemplates/      # Reusable configuration templates
-│   ├── gemini/             # Gemini templates
+│   ├── gemini/             # Gemini templates (settings, skills, themes)
 │   ├── ghostty/            # Ghostty templates
 │   ├── hypr/               # Hyprland ecosystem templates
 │   ├── nvim/               # Neovim templates
@@ -73,7 +73,7 @@ Here is a brief overview of the configuration mapping. The project now uses `che
 │   ├── waybar/             # Status bar config & styling
 │   ├── yazi/               # File manager theme
 │   └── ...
-└── dot_gemini/             # AI assistant settings templates
+└── dot_gemini/             # AI assistant settings & skills templates
 ```
 
 ## ⌨️ Keybindings
