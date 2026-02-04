@@ -30,6 +30,9 @@ This setup configures the following tools:
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
 *   **Gemini CLI:** Configurations for Google's AI assistant CLI.
 
+### Browsers
+*   **[Zen Browser](https://www.zen-browser.app/):** Firefox-based browser with cohesive Catppuccin Mocha CSS themes.
+
 ## 🚀 Installation
 
 ### 1. Prerequisites
@@ -59,8 +62,8 @@ Here is a brief overview of the configuration mapping. The project now uses `che
 │   ├── hypr/               # Hyprland ecosystem templates
 │   ├── nvim/               # Neovim templates
 │   ├── starship/           # Starship prompt templates
-│   ├── zsh/                # Zsh templates
-│   └── ...                 # Other application templates
+│   ├── zen/                # Zen Browser CSS templates
+│   └── zsh/                # Zsh templates
 ├── dot_zshrc.tmpl          # Zsh configuration template
 ├── dot_config/             # Configuration templates mapping to .chezmoitemplates
 │   ├── ghostty/            # Terminal config & themes
