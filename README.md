@@ -26,7 +26,7 @@ This setup configures the following tools:
 
 ### Editors & Tools
 *   **[Neovim](https://neovim.io/):** Powered by [LazyVim](https://www.lazyvim.org/) for a full IDE experience.
-*   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager.
+*   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
 *   **Gemini CLI:** AI assistant configuration with custom skills for Obsidian Markdown, JSON Canvas, and Obsidian Bases.
 
@@ -36,43 +36,47 @@ This setup configures the following tools:
 ## 🚀 Installation
 
 ### 1. Prerequisites
-Ensure you have `git` and `chezmoi` installed on your system. You will also need the core tools listed above (Hyprland, Neovim, etc.) installed via your distribution's package manager.
+Ensure you have `git` and `chezmoi` installed on your system.
+- **Linux:** Install via your package manager.
+- **Windows:** Install via [Winget](https://github.com/microsoft/winget-cli) (`winget install chezmoi`) or [Scoop](https://scoop.sh/).
 
 ### 2. Initialize & Apply
 Use `chezmoi` to clone and apply the configurations in one go:
 
 ```bash
+# On Linux or Windows (PowerShell/CMD)
 chezmoi init --apply https://github.com/0oWoodenDooro0/dotfiles.git
 ```
 
 ### 3. Post-Installation
-*   **Zsh:** Make sure to switch your default shell to zsh: `chsh -s $(which zsh)`.
-*   **Fonts:** Install a Nerd Font to ensure icons render correctly in Waybar and Starship.
+*   **Zsh (Linux):** Make sure to switch your default shell to zsh: `chsh -s $(which zsh)`.
+*   **Fonts:** Install a Nerd Font to ensure icons render correctly in Waybar, Starship, and Yazi.
 
 ## 📂 Structure
 
-Here is a brief overview of the configuration mapping. The project now uses `chezmoi` templates extensively to modularize configurations.
+Here is a brief overview of the configuration mapping. The project uses `chezmoi` templates and OS-specific logic to handle cross-platform configurations.
 
 ```text
 ~/.local/share/chezmoi/
-├── .chezmoiignore          # Ignore rules (e.g., skip Linux configs on other OSs)
+├── .chezmoiignore          # OS-specific ignore rules (handles Linux vs Windows)
 ├── .chezmoitemplates/      # Reusable configuration templates
 │   ├── gemini/             # Gemini templates (settings, skills, themes)
 │   ├── ghostty/            # Ghostty templates
 │   ├── hypr/               # Hyprland ecosystem templates
 │   ├── nvim/               # Neovim templates
 │   ├── starship/           # Starship prompt templates
+│   ├── yazi/               # Yazi file manager templates
 │   ├── zen/                # Zen Browser CSS templates
 │   └── zsh/                # Zsh templates
-├── dot_zshrc.tmpl          # Zsh configuration template
-├── dot_config/             # Configuration templates mapping to .chezmoitemplates
+├── dot_zshrc.tmpl          # Zsh configuration template (Linux only)
+├── dot_config/             # Linux configuration templates
 │   ├── ghostty/            # Terminal config & themes
 │   ├── hypr/               # Hyprland, Hyprlock, Hypridle
 │   ├── nvim/               # Neovim (LazyVim)
-│   ├── tmux/               # Tmux settings
-│   ├── waybar/             # Status bar config & styling
-│   ├── yazi/               # File manager theme
+│   ├── yazi/               # Yazi theme
 │   └── ...
+├── AppData/                # Windows configuration templates
+│   └── Roaming/yazi/       # Yazi configuration for Windows (%AppData%)
 └── dot_gemini/             # AI assistant settings & skills templates
 ```
 
