@@ -28,10 +28,7 @@ This setup configures the following tools:
 *   **[Neovim](https://neovim.io/):** Powered by [LazyVim](https://www.lazyvim.org/) for a full IDE experience.
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
-*   **Gemini CLI:** AI assistant configuration with custom skills for Obsidian Markdown, JSON Canvas, and Obsidian Bases.
-
-### Browsers
-*   **[Zen Browser](https://www.zen-browser.app/):** Firefox-based browser with cohesive Catppuccin Mocha CSS themes.
+*   **OpenCode & Gemini CLI:** AI assistant configuration with shared custom skills for Obsidian Markdown, JSON Canvas, and Obsidian Bases.
 
 ## 🚀 Installation
 
@@ -60,7 +57,9 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 ~/.local/share/chezmoi/
 ├── .chezmoiignore          # OS-specific ignore rules (handles Linux vs Windows)
 ├── .chezmoitemplates/      # Reusable configuration templates
-│   ├── gemini/             # Gemini templates (settings, skills, themes)
+│   ├── ai/                 # Shared AI templates (agents, skills)
+│   ├── gemini/             # Gemini-specific templates (settings, themes)
+│   ├── opencode/           # OpenCode-specific templates (config)
 │   ├── ghostty/            # Ghostty templates
 │   ├── hypr/               # Hyprland ecosystem templates
 │   ├── nvim/               # Neovim templates
@@ -73,6 +72,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 │   ├── ghostty/            # Terminal config & themes
 │   ├── hypr/               # Hyprland, Hyprlock, Hypridle
 │   ├── nvim/               # Neovim (LazyVim)
+│   ├── opencode/           # OpenCode settings & agents templates
 │   ├── yazi/               # Yazi theme
 │   └── ...
 ├── AppData/                # Windows configuration templates
