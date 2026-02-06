@@ -46,7 +46,8 @@
     "format": "text"
   },
   "experimental": {
-    "skills": true
+    "skills": true,
+    "enableAgents": true
   },
   "mcpServers": {
     "gh_grep": {
