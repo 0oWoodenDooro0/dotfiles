@@ -2,6 +2,8 @@
 .config
 .zshrc
 .gemini
+{{ else }}
+.config/starship.toml
 {{ end }}
 
 {{ if ne .chezmoi.os "windows" }}
