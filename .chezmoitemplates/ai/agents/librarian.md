@@ -9,8 +9,19 @@ permission:
   websearch: allow
   codesearch: allow
   webfetch: allow
-  bash: ask
-  external_directory: ask
+  bash:
+    "*": ask
+    "gh *": allow
+    "grep *": allow
+    "ls *": allow
+    "cat *": allow
+    "find *": allow
+    "head *": allow
+    "echo *": allow
+    "base64 *": allow
+  external_directory:
+    "*": ask
+    "/temp/**": allow
   task: allow
 ---
 # THE LIBRARIAN

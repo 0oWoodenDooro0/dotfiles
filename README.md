@@ -28,7 +28,7 @@ This setup configures the following tools:
 *   **[Neovim](https://neovim.io/):** Powered by [LazyVim](https://www.lazyvim.org/) for a full IDE experience.
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
-*   **OpenCode & Gemini CLI:** AI assistant configuration with shared custom skills for Obsidian Markdown, JSON Canvas, and Obsidian Bases.
+*   **OpenCode & Gemini CLI:** AI assistant configuration with specialized agents (like **The Librarian** for codebase analysis) and shared custom skills for Obsidian.
 
 ## 🚀 Installation
 
