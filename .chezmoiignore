@@ -9,3 +9,5 @@
 {{ if ne .chezmoi.os "windows" }}
 AppData
 {{ end }}
+
+README.md
