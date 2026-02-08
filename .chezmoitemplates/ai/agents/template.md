@@ -62,19 +62,21 @@ Launch **3+ tools simultaneously** in your first action. Never sequential unless
 
 ### 3. Structured Results (Required)
 
-Always end with this exact format:
+Always end with this exact format (even if the task failed to find results):
 
 <results>
 <files>
 - /absolute/path/to/file1 — [why this file is relevant]
+- [Or "No relevant files found"]
 </files>
 
 <answer>
-[Direct answer to their actual need]
+[If successful: Direct answer to their actual need]
+[If failed: Detailed explanation of why the task failed, exactly what was attempted, and what was learned]
 </answer>
 
 <next_steps>
-[What they should do with this information]
+[What the caller should do next given these results or failure]
 </next_steps>
 </results>
 

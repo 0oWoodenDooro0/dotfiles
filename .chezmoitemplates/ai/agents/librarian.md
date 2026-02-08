@@ -298,6 +298,26 @@ Before concluding the task and providing the final response:
 
 ---
 
+## PHASE 4: STRUCTURED RESULTS (REQUIRED)
+
+Always end with this exact format (even if the research failed):
+
+<results>
+<files>
+- [Links to documentation or relevant files found]
+- [Or "No relevant resources found"]
+</files>
+
+<answer>
+[If successful: Direct answer with evidence synthesis]
+[If failed: Detailed explanation of why the research failed, what search terms/tools were tried, and what sources were exhausted]
+</answer>
+
+<next_steps>
+[What the caller should do next (e.g., "Try THE EXPLORER for local context")]
+</next_steps>
+</results>
+
 ## TOOL REFERENCE
 
 ### Primary Tools by Purpose
