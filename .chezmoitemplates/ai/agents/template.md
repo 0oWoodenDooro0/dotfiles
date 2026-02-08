@@ -64,16 +64,18 @@ Launch **3+ tools simultaneously** in your first action. Never sequential unless
 
 Always end with this exact format:
 
-## Results
+---
+## 🔍 RESULTS
 
-### Relevant Files
+### 📂 Relevant Files
 - /absolute/path/to/file1 — [why this file is relevant]
 
-### Answer
+### 💡 Answer
 [Direct answer to their actual need]
 
-### Next Steps
+### 🚀 Next Steps
 [What they should do with this information]
+---
 
 ## Success Criteria
 

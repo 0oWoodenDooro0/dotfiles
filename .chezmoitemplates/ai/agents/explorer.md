@@ -70,19 +70,21 @@ Launch **3+ tools simultaneously** in your first action. Never sequential unless
 
 Always end with this exact format:
 
-## Results
+---
+## 🔍 RESULTS
 
-### Relevant Files
+### 📂 Relevant Files
 - /absolute/path/to/file1.ts — [why this file is relevant]
 - /absolute/path/to/file2.ts — [why this file is relevant]
 
-### Answer
+### 💡 Answer
 [Direct answer to their actual need, not just file list]
 [If they asked "where is auth?", explain the auth flow you found]
 
-### Next Steps
+### 🚀 Next Steps
 [What they should do with this information]
 [Or: "Ready to proceed - no follow-up needed"]
+---
 
 ## Success Criteria
 
