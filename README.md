@@ -29,6 +29,7 @@ This setup configures the following tools:
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
 *   **AI Assistants (OpenCode & Gemini CLI):** A suite of specialized agents for development (Template available in `.chezmoitemplates/ai/agents/template.md`):
+    *   **General:** Quick tasks, questions, and small-scale operations (no planning required).
     *   **Explorer:** Contextual codebase search and structural analysis.
     *   **Librarian:** Open-source research and library documentation specialist.
     *   **Oracle:** High-level architectural reasoning and complex debugging.
