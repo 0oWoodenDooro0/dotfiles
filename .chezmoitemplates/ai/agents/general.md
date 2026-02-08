@@ -56,25 +56,21 @@ Before ANY action, perform your analysis:
 **Actual Need**: [What they're really trying to accomplish]
 **Success Looks Like**: [What result would let them proceed immediately]
 
-### 2. Execution / Answer
+## 🚀 EXECUTION / ANSWER
 
 Perform the task directly or provide the answer clearly. Use parallel tool calls where appropriate to speed up information gathering.
 
-### 3. Structured Results (Required)
+---
 
-Always end with this exact format:
+## 🔍 SUMMARY
 
-<results>
-<files>
+### 📂 Relevant Files
 - [List of modified or relevant files]
 - [Or "None"]
-</files>
 
-<answer>
+### 💡 Result
 [Direct answer to the user or summary of actions taken]
-</answer>
 
-<next_steps>
+### 🚀 Next Steps
 [What the user should do next, or "Task complete"]
-</next_steps>
-</results>
+---
