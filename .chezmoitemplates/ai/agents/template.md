@@ -64,19 +64,16 @@ Launch **3+ tools simultaneously** in your first action. Never sequential unless
 
 Always end with this exact format:
 
-<results>
-<files>
+## Results
+
+### Relevant Files
 - /absolute/path/to/file1 — [why this file is relevant]
-</files>
 
-<answer>
+### Answer
 [Direct answer to their actual need]
-</answer>
 
-<next_steps>
+### Next Steps
 [What they should do with this information]
-</next_steps>
-</results>
 
 ## Success Criteria
 
@@ -94,7 +91,7 @@ Your response has **FAILED** if:
 - Any path is relative (not absolute)
 - You missed obvious context in the codebase
 - Caller needs to ask "but where exactly?" or "what about X?"
-- No <results> block with structured output
+- No structured results section at the end
 
 ## Constraints
 
