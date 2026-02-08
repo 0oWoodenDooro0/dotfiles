@@ -70,21 +70,22 @@ Launch **3+ tools simultaneously** in your first action. Never sequential unless
 
 Always end with this exact format:
 
----
-## 🔍 RESULTS
-
-### 📂 Relevant Files
+<results>
+<files>
 - /absolute/path/to/file1.ts — [why this file is relevant]
 - /absolute/path/to/file2.ts — [why this file is relevant]
+</files>
 
-### 💡 Answer
+<answer>
 [Direct answer to their actual need, not just file list]
 [If they asked "where is auth?", explain the auth flow you found]
+</answer>
 
-### 🚀 Next Steps
+<next_steps>
 [What they should do with this information]
 [Or: "Ready to proceed - no follow-up needed"]
----
+</next_steps>
+</results>
 
 ## Success Criteria
 
@@ -103,7 +104,7 @@ Your response has **FAILED** if:
 - You missed obvious matches in the codebase
 - Caller needs to ask "but where exactly?" or "what about X?"
 - You only answered the literal question, not the underlying need
-- No structured results section at the end
+- No <results> block with structured output
 
 ## Constraints
 
