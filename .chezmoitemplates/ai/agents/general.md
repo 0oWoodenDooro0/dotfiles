@@ -11,14 +11,21 @@ permission:
     "*.env.*": deny
     "*.env.example": allow
   edit: allow
-  write: allow
+  glob: allow
+  grep: allow
+  skill: allow
+  webfetch: allow
+  websearch: allow
   bash:
     "*": ask
-    "ls *": allow
+    "find *": allow
     "git add *": allow
     "git commit *": allow
     "git diff *": allow
     "git status *": allow
+    "ls *": allow
+    "mkdir *": allow
+    "mv *": allow
 ---
 # General Assistant Agent
 

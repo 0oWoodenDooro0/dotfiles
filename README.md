@@ -35,7 +35,7 @@ This setup configures the following tools:
     *   **Oracle:** High-level architectural reasoning and complex debugging.
     *   **Conductor & Implementer:** Spec-driven development orchestration.
     *   **Multimodal Looker:** Visual analysis for diagrams, UIs, and documents.
-*   **Custom Skills:** Shared logic for Obsidian (Bases, Canvas, Markdown) and more.
+*   **Custom Skills:** Shared logic for Obsidian (Bases, Canvas, Markdown), Skill Creator, and more.
 
 ## 🛡️ AI Security & Permissions
 
