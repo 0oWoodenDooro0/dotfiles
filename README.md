@@ -72,7 +72,9 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 ~/.local/share/chezmoi/
 ├── .chezmoiignore          # OS-specific ignore rules (handles Linux vs Windows)
 ├── .chezmoitemplates/      # Reusable configuration templates
-│   ├── ai/                 # Shared AI templates (agents, skills)
+│   ├── ai/                 # Shared AI templates
+│   │   ├── agents/         # Agent definitions (General, Explorer, etc.)
+│   │   └── skills/         # Shared logic for Obsidian, etc.
 │   ├── gemini/             # Gemini-specific templates (settings, themes)
 │   ├── opencode/           # OpenCode-specific templates (config)
 │   ├── ghostty/            # Ghostty templates

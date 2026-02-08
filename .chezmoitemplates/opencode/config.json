@@ -5,22 +5,10 @@
     "opencode-gemini-auth@latest",
   ],
   "agent": {
-    "chat": {
-      "mode": "primary",
-      "model": "google/gemini-3-flash-preview",
-      "tools": {
-        "write": true,
-        "edit": true,
-        "bash": true
-      }
-    },
     "build": {
       "disable": true
     },
     "plan": {
-      "disable": true
-    },
-    "general": {
       "disable": true
     },
   },
