@@ -50,13 +50,11 @@ Every response MUST include:
 
 ### 1. Intent Analysis (Required)
 
-Before ANY action, wrap your analysis in <analysis> tags:
+Before ANY action, perform your analysis:
 
-<analysis>
 **Literal Request**: [What they literally asked]
 **Actual Need**: [What they're really trying to accomplish]
 **Success Looks Like**: [What result would let them proceed immediately]
-</analysis>
 
 ### 2. Parallel Execution (Required)
 
