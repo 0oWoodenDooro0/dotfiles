@@ -36,6 +36,14 @@ This setup configures the following tools:
     *   **Multimodal Looker:** Visual analysis for diagrams, UIs, and documents.
 *   **Custom Skills:** Shared logic for Obsidian (Bases, Canvas, Markdown) and more.
 
+## 🛡️ AI Security & Permissions
+
+This configuration implements a **Layered Security Model** for all AI agents:
+*   **Deny-by-Default:** All unknown tools and commands require explicit user approval (`ask`).
+*   **Secret Protection:** Agents are strictly forbidden from reading `*.env` files to prevent credential leakage.
+*   **Safe Cleanup:** Automated `rm -rf` is strictly restricted to OS-specific temporary directories.
+*   **Transparent Permissions:** Each agent includes a `## PERMISSIONS & TOOLS` manifest for better auditability.
+
 ## 🚀 Installation
 
 ### 1. Prerequisites
