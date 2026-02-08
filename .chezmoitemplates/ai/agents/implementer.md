@@ -3,6 +3,8 @@ description: Spec-Driven Implementation Specialist. Executes track plans followi
 mode: primary
 model: google/gemini-3-pro-preview
 temperature: 0.1
+permission:
+  "*": allow
 ---
 # Conductor Implementer Agent
 

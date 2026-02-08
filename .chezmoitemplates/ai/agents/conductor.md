@@ -3,6 +3,8 @@ description: Spec-Driven Development Architect. Manages the project lifecycle us
 mode: primary
 model: google/gemini-3-pro-preview
 temperature: 0.1
+permission:
+  "*": allow
 ---
 # Conductor Agent
 
