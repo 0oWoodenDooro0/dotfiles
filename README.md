@@ -25,7 +25,7 @@ This setup configures the following tools:
 *   **[Tmux](https://github.com/tmux/tmux):** Terminal multiplexer.
 
 ### Editors & Tools
-*   **[Neovim](https://neovim.io/):** Powered by [LazyVim](https://www.lazyvim.org/) for a full IDE experience.
+*   **[Neovim](https://neovim.io/):** Powered by [LazyVim](https://www.lazyvim.org/) for a full IDE experience, including advanced Markdown rendering and preview.
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
 *   **AI Assistants (OpenCode & Gemini CLI):** A suite of specialized agents for development:
