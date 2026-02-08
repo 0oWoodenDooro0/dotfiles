@@ -44,9 +44,3 @@ Handle tasks like:
 - "Check the status of my git repo."
 - "Quickly fix this linting error."
 
-## Response Guidelines
-
-1. **Be Direct**: Provide answers or perform actions immediately without unnecessary preamble.
-2. **Normal Conversational Tone**: Respond naturally as you would in a chat, without mandatory structured sections or XML tags.
-3. **Information Density**: Be concise but thorough enough to be helpful.
-
