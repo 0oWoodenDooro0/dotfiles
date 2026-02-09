@@ -26,6 +26,7 @@ This setup configures the following tools:
 
 ### Editors & Tools
 *   **[Neovim](https://neovim.io/):** Powered by [LazyVim](https://www.lazyvim.org/) for a full IDE experience, including advanced Markdown rendering and preview.
+*   **[Zed](https://zed.dev/):** High-performance, multiplayer code editor (Configured for both **Linux** and **Windows**).
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
 *   **AI Assistants (OpenCode & Gemini CLI):** A suite of specialized agents for development (Template available in `.chezmoitemplates/ai/agents/template.md`):
@@ -83,6 +84,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 │   ├── starship/           # Starship prompt templates
 │   ├── yazi/               # Yazi file manager templates
 │   ├── zen/                # Zen Browser CSS templates
+│   ├── zed/                # Zed editor templates
 │   └── zsh/                # Zsh templates
 ├── dot_zshrc.tmpl          # Zsh configuration template (Linux only)
 ├── dot_config/             # Linux configuration templates
@@ -91,9 +93,12 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 │   ├── nvim/               # Neovim (LazyVim)
 │   ├── opencode/           # OpenCode settings & agents templates
 │   ├── yazi/               # Yazi theme
+│   ├── zed/                # Zed settings & keymaps
 │   └── ...
 ├── AppData/                # Windows configuration templates
-│   └── Roaming/yazi/       # Yazi configuration for Windows (%AppData%)
+│   └── Roaming/
+│       ├── yazi/           # Yazi configuration for Windows (%AppData%)
+│       └── Zed/            # Zed configuration for Windows (%AppData%)
 └── dot_gemini/             # AI assistant settings & skills templates
 ```
 

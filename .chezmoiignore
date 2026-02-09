@@ -1,13 +1,13 @@
-{{ if ne .chezmoi.os "linux" }}
-.config
+{{ if eq .chezmoi.os "windows" }}
+.config/**
+!.config/starship.toml
 .zshrc
 .gemini
-{{ else }}
-.config/starship.toml
 {{ end }}
 
-{{ if ne .chezmoi.os "windows" }}
+{{ if eq .chezmoi.os "linux" }}
 AppData
+.config/starship.toml
 {{ end }}
 
 README.md
