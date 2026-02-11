@@ -1,0 +1,45 @@
+{
+  "plugins": {
+    "td-monitor": {
+      "enabled": false,
+      "refreshInterval": "2s"
+    },
+    "git-status": {
+      "enabled": true,
+      "refreshInterval": "1s"
+    },
+    "file-browser": {
+      "enabled": true
+    },
+    "conversations": {
+      "enabled": true
+    },
+    "workspaces": {
+      "enabled": true
+    }
+  },
+  "ui": {
+    "showClock": false,
+    "nerdFontsEnabled": true
+  },
+  "projects": {
+    "list": [
+      {
+        "name": "chezmoi",
+        "path": "~/.local/share/chezmoi"
+      },
+      {
+        "name": "obsidian",
+        "path": "~/Documents/obsidian"
+      },
+      {
+        "name": "blog",
+        "path": "~/IdeaProjects/blog"
+      },
+      {
+        "name": "ExtractionShooter",
+        "path": "~/IdeaProjects/ExtractionShooter"
+      }
+    ]
+  }
+}

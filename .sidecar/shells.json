@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "shells": [
+    {
+      "tmuxName": "sidecar-sh-chezmoi-1",
+      "displayName": "opencode",
+      "createdAt": "2026-02-11T18:04:49.088172131+08:00",
+      "agentType": "opencode"
+    }
+  ]
+}

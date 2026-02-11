@@ -29,6 +29,7 @@ This setup configures the following tools:
 *   **[Zed](https://zed.dev/):** High-performance, multiplayer code editor (Configured for both **Linux** and **Windows**).
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
+*   **Sidecar:** A custom monitoring and workspace management tool for development.
 *   **AI Assistants (OpenCode & Gemini CLI):** A suite of specialized agents for development (Template available in `.chezmoitemplates/ai/agents/template.md`):
     *   **General:** Quick tasks, questions, and small-scale operations (no planning required).
     *   **Explorer:** Contextual codebase search and structural analysis.
@@ -37,6 +38,7 @@ This setup configures the following tools:
     *   **Conductor & Implementer:** Spec-driven development orchestration.
     *   **Multimodal Looker:** Visual analysis for diagrams, UIs, and documents.
 *   **Custom Skills:** Shared logic for Obsidian (Bases, Canvas, Markdown), Skill Creator, and more.
+*   **Sidecar:** Workspace and task monitoring configuration.
 
 ## 🛡️ AI Security & Permissions
 
@@ -76,6 +78,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 │   ├── ai/                 # Shared AI templates
 │   │   ├── agents/         # Agent definitions (General, Explorer, etc.)
 │   │   └── skills/         # Shared logic for Obsidian, etc.
+│   ├── sidecar/            # Sidecar configuration templates
 │   ├── gemini/             # Gemini-specific templates (settings, themes)
 │   ├── opencode/           # OpenCode-specific templates (config)
 │   ├── ghostty/            # Ghostty templates
@@ -92,6 +95,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 │   ├── hypr/               # Hyprland, Hyprlock, Hypridle
 │   ├── nvim/               # Neovim (LazyVim)
 │   ├── opencode/           # OpenCode settings & agents templates
+│   ├── sidecar/            # Sidecar settings
 │   ├── yazi/               # Yazi theme
 │   ├── zed/                # Zed settings & keymaps
 │   └── ...
