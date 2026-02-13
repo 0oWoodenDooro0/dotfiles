@@ -10,4 +10,15 @@ AppData
 .config/starship.toml
 {{ end }}
 
+{{ if eq .chezmoi.os "darwin" }}
+AppData
+.gemini
+.config/**
+!.config/tmux
+!.config/ghostty
+!.config/opencode
+!.config/nvim
+!.config/yazi
+{{ end }}
+
 README.md

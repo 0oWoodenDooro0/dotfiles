@@ -59,12 +59,12 @@ Ensure you have `git` and `chezmoi` installed on your system.
 Use `chezmoi` to clone and apply the configurations in one go:
 
 ```bash
-# On Linux or Windows (PowerShell/CMD)
+# On Linux, macOS, or Windows (PowerShell/CMD)
 chezmoi init --apply https://github.com/0oWoodenDooro0/dotfiles.git
 ```
 
 ### 3. Post-Installation
-*   **Zsh (Linux):** Make sure to switch your default shell to zsh: `chsh -s $(which zsh)`.
+*   **Zsh (Linux/macOS):** Make sure to switch your default shell to zsh: `chsh -s $(which zsh)`.
 *   **Fonts:** Install a Nerd Font to ensure icons render correctly in Waybar, Starship, and Yazi.
 
 ## 📂 Structure
@@ -73,7 +73,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 
 ```text
 ~/.local/share/chezmoi/
-├── .chezmoiignore          # OS-specific ignore rules (handles Linux vs Windows)
+├── .chezmoiignore          # OS-specific ignore rules (handles Linux, Windows, and macOS)
 ├── .chezmoitemplates/      # Reusable configuration templates
 │   ├── ai/                 # Shared AI templates
 │   │   ├── agents/         # Agent definitions (General, Explorer, etc.)
@@ -89,7 +89,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 │   ├── zen/                # Zen Browser CSS templates
 │   ├── zed/                # Zed editor templates
 │   └── zsh/                # Zsh templates
-├── dot_zshrc.tmpl          # Zsh configuration template (Linux only)
+├── dot_zshrc.tmpl          # Zsh configuration template (Linux and macOS)
 ├── dot_config/             # Linux configuration templates
 │   ├── ghostty/            # Terminal config & themes
 │   ├── hypr/               # Hyprland, Hyprlock, Hypridle

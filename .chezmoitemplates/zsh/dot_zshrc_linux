@@ -49,7 +49,7 @@ function y() {
 
 
 # Created by `pipx` on 2025-12-31 18:09:11
-export PATH="$PATH:/home/user/.local/bin"
+export PATH="$PATH:{{ .chezmoi.homeDir }}/.local/bin"
 
 
 export NVM_DIR="$HOME/.nvm"
@@ -57,4 +57,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-export PATH="/home/user/go/bin:$PATH"
+export PATH="{{ .chezmoi.homeDir }}/go/bin:$PATH"
