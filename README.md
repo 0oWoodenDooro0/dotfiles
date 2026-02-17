@@ -53,6 +53,7 @@ This configuration implements a **Layered Security Model** for all AI agents:
 ### 1. Prerequisites
 Ensure you have `git` and `chezmoi` installed on your system.
 - **Linux:** Install via your package manager.
+- **macOS:** Install via [Homebrew](https://brew.sh/) (`brew install chezmoi`).
 - **Windows:** Install via [Winget](https://github.com/microsoft/winget-cli) (`winget install chezmoi`) or [Scoop](https://scoop.sh/).
 
 ### 2. Initialize & Apply
@@ -62,6 +63,8 @@ Use `chezmoi` to clone and apply the configurations in one go:
 # On Linux, macOS, or Windows (PowerShell/CMD)
 chezmoi init --apply https://github.com/0oWoodenDooro0/dotfiles.git
 ```
+
+> **Note for macOS:** The installation process will automatically install required packages (Neovim, Tmux, Yazi, etc.) via Homebrew using a `run_onchange_` script.
 
 ### 3. Post-Installation
 *   **Zsh (Linux/macOS):** Make sure to switch your default shell to zsh: `chsh -s $(which zsh)`.
@@ -75,6 +78,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 ~/.local/share/chezmoi/
 ├── .chezmoiignore          # OS-specific ignore rules (handles Linux, Windows, and macOS)
 ├── .chezmoitemplates/      # Reusable configuration templates
+├── run_onchange_install-packages.sh.tmpl # Automatic package installation script (macOS)
 │   ├── ai/                 # Shared AI templates
 │   │   ├── agents/         # Agent definitions (General, Explorer, etc.)
 │   │   └── skills/         # Shared logic for Obsidian, etc.
