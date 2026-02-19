@@ -21,6 +21,7 @@ This setup configures the following tools:
 ### Terminal & Shell
 *   **[Ghostty](https://github.com/ghostty-org/ghostty):** Fast, feature-rich terminal emulator.
 *   **[Zsh](https://www.zsh.org/):** Shell configuration with [Oh My Zsh](https://ohmyz.sh/).
+*   **[Starship](https://starship.rs/):** Cross-shell prompt (Configured for **Windows**).
 *   **[Tmux](https://github.com/tmux/tmux):** Terminal multiplexer.
 
 ### Editors & Tools
@@ -67,7 +68,7 @@ chezmoi init --apply https://github.com/0oWoodenDooro0/dotfiles.git
 
 ### 3. Post-Installation
 *   **Zsh (Linux/macOS):** Make sure to switch your default shell to zsh: `chsh -s $(which zsh)`.
-*   **Fonts:** Install a Nerd Font to ensure icons render correctly in Waybar and Yazi.
+*   **Fonts:** Install a Nerd Font to ensure icons render correctly in Waybar, Starship (Windows), and Yazi.
 
 ## 📂 Structure
 
