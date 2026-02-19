@@ -37,7 +37,7 @@ This setup configures the following tools:
     *   **Oracle:** High-level architectural reasoning and complex debugging.
     *   **Conductor & Implementer:** Spec-driven development orchestration.
     *   **Multimodal Looker:** Visual analysis for diagrams, UIs, and documents.
-*   **Custom Skills:** Shared logic for Hyprland configuration, chezmoi management, Obsidian (Bases, Canvas, Markdown), Skill Creator, and more.
+*   **Custom Skills:** Shared logic for Hyprland configuration, chezmoi management, Skill Creator, and more.
 *   **Sidecar:** Workspace and task monitoring configuration.
 
 ## 🛡️ AI Security & Permissions
@@ -81,7 +81,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 ├── run_onchange_install-packages.sh.tmpl # Automatic package installation script (macOS & Arch Linux)
 │   ├── ai/                 # Shared AI templates
 │   │   ├── agents/         # Agent definitions (General, Explorer, etc.)
-│   │   └── skills/         # Shared logic for Obsidian, etc.
+│   │   └── skills/         # Shared logic for Skill Creator, etc.
 │   ├── sidecar/            # Sidecar configuration templates
 │   ├── gemini/             # Gemini-specific templates (settings, themes)
 │   ├── opencode/           # OpenCode-specific templates (config)
