@@ -30,14 +30,13 @@ This setup configures the following tools:
 *   **[Yazi](https://github.com/sxyazi/yazi):** Blazing fast terminal file manager (Configured for both **Linux** and **Windows**).
 *   **[Lazygit](https://github.com/jesseduffield/lazygit):** Simple terminal UI for git commands.
 *   **Sidecar:** A custom monitoring and workspace management tool for development.
-*   **AI Assistants (OpenCode & Gemini CLI):** A suite of specialized agents for development (Template available in `.chezmoitemplates/ai/agents/template.md`):
-    *   **General:** Quick tasks, questions, and small-scale operations (no planning required).
-    *   **Explorer:** Contextual codebase search and structural analysis.
-    *   **Librarian:** Open-source research and library documentation specialist.
-    *   **Oracle:** High-level architectural reasoning and complex debugging.
-    *   **Conductor & Implementer:** Spec-driven development orchestration.
-    *   **Multimodal Looker:** Visual analysis for diagrams, UIs, and documents.
-*   **Custom Skills:** Specialized skills and shared logic for AI agents.
+*   **AI Assistants (OpenCode):** A modular, context-aware agent system for advanced development workflows:
+    *   **Core Agents:** `OpenAgent` (universal), `OpenCoder` (coding specialist).
+    *   **Specialists:** `ContextScout` (context discovery), `ExternalScout` (live documentation), `TaskManager` (complex feature breakdown).
+    *   **Development:** `CoderAgent`, `TestEngineer`, `CodeReviewer`, `BuildAgent`.
+    *   **System Builders:** `AgentGenerator`, `WorkflowDesigner`, `ContextOrganizer`.
+*   **Custom Skills:** Specialized skills and shared logic for AI agents (e.g., `context7`, `task-management`).
+*   **Context System:** A comprehensive project intelligence system with standards, workflows, and automated discovery.
 *   **Sidecar:** Workspace and task monitoring configuration.
 
 ## 🛡️ AI Security & Permissions
