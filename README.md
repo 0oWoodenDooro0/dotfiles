@@ -113,6 +113,16 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 ## ⌨️ Keybindings
 
 *   **Hyprland:** Check `~/.config/hypr/hyprland.conf` for window management keys.
+    *   **App Submap:** Press `SUPER + D` to enter application mode, then:
+        *   `B`: Zen Browser
+        *   `T`: Terminal (Ghostty)
+        *   `D`: Discord
+        *   `F`: Firefox Developer Edition
+        *   `O`: Obsidian
+        *   `P`: Prism Launcher
+        *   `H`: Htop
+        *   `C`: Google Chrome
+        *   `ESC` or any other key: Exit mode.
 *   **Yazi:** `y` alias in zsh allows changing directory on exit.
 *   **Neovim:** Follows standard LazyVim keybindings (Leader key is `<Space>`).
 
