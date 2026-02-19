@@ -3,3 +3,68 @@
 brew install fd ffmpeg fzf imagemagick jq neovim node poppler resvg ripgrep sevenzip tmux yazi zoxide
 brew install --cask font-jetbrains-mono-nerd-font
 {{ end -}}
+
+{{ if eq .chezmoi.os "linux" -}}
+{{   if eq .chezmoi.osRelease.id "arch" -}}
+#!/bin/sh
+# 僅保留 dotfiles 中有配置或引用的包
+PACKAGES="
+7zip
+brightnessctl
+chezmoi
+copyq
+discord
+fastfetch
+fcitx5
+fcitx5-chinese-addons
+fcitx5-gtk
+fcitx5-rime
+fd
+ffmpeg
+firefox-developer-edition
+fzf
+ghostty
+git
+github-cli
+hypridle
+hyprland
+hyprlock
+hyprpaper
+hyprshot
+imagemagick
+jq
+kdeconnect
+lazygit
+neovim
+pavucontrol
+playerctl
+poppler
+prismlauncher
+resvg
+ripgrep
+rofi
+swaync
+tmux
+ttf-jetbrains-mono-nerd
+waybar
+wget
+wireplumber
+yazi
+zed
+zoxide
+zsh
+"
+
+sudo pacman -S --needed --noconfirm $PACKAGES
+
+# AUR 包 (在 Hyprland 配置中有引用)
+if command -v yay >/dev/null 2>&1; then
+    AUR_PACKAGES="
+    google-chrome
+    wlogout
+    zen-browser-bin
+    "
+    yay -S --needed --noconfirm $AUR_PACKAGES
+fi
+{{   end -}}
+{{ end -}}
