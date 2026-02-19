@@ -21,7 +21,6 @@ This setup configures the following tools:
 ### Terminal & Shell
 *   **[Ghostty](https://github.com/ghostty-org/ghostty):** Fast, feature-rich terminal emulator.
 *   **[Zsh](https://www.zsh.org/):** Shell configuration with [Oh My Zsh](https://ohmyz.sh/).
-*   **[Starship](https://starship.rs/):** Cross-shell prompt.
 *   **[Tmux](https://github.com/tmux/tmux):** Terminal multiplexer.
 
 ### Editors & Tools
@@ -64,11 +63,11 @@ Use `chezmoi` to clone and apply the configurations in one go:
 chezmoi init --apply https://github.com/0oWoodenDooro0/dotfiles.git
 ```
 
-> **Note for macOS:** The installation process will automatically install required packages (Neovim, Tmux, Yazi, etc.) via Homebrew using a `run_onchange_` script.
+> **Note for macOS & Arch Linux:** The installation process will automatically install required packages (Neovim, Tmux, Yazi, etc.) via Homebrew (macOS) or Pacman/Yay (Arch Linux) using a `run_onchange_` script.
 
 ### 3. Post-Installation
 *   **Zsh (Linux/macOS):** Make sure to switch your default shell to zsh: `chsh -s $(which zsh)`.
-*   **Fonts:** Install a Nerd Font to ensure icons render correctly in Waybar, Starship, and Yazi.
+*   **Fonts:** Install a Nerd Font to ensure icons render correctly in Waybar and Yazi.
 
 ## 📂 Structure
 
@@ -78,7 +77,7 @@ Here is a brief overview of the configuration mapping. The project uses `chezmoi
 ~/.local/share/chezmoi/
 ├── .chezmoiignore          # OS-specific ignore rules (handles Linux, Windows, and macOS)
 ├── .chezmoitemplates/      # Reusable configuration templates
-├── run_onchange_install-packages.sh.tmpl # Automatic package installation script (macOS)
+├── run_onchange_install-packages.sh.tmpl # Automatic package installation script (macOS & Arch Linux)
 │   ├── ai/                 # Shared AI templates
 │   │   ├── agents/         # Agent definitions (General, Explorer, etc.)
 │   │   └── skills/         # Shared logic for Obsidian, etc.
