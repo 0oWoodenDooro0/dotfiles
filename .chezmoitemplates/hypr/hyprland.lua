@@ -14,7 +14,7 @@ hl.monitor({
 ---------------------
 local terminal = "ghostty"
 local fileManager = "yazi"
-local menu = "rofi -show drun"
+local menu = "hyprlauncher"
 local browser = "/home/user/.tarball-installations/zen/zen"
 
 -------------------
