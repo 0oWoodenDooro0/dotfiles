@@ -66,7 +66,7 @@
         "󰕾"
       ]
     },
-    "on-click": "pavucontrol",
+    "on-click": "hyprpwcenter",
     "tooltip-format": "{volume}%"
   },
   "clock": {
