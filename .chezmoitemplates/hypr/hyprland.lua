@@ -24,7 +24,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
 	hl.exec_cmd("waybar & swaync & hyprpaper")
 	hl.exec_cmd("fcitx5 -d -r")
-	hl.exec_cmd("copyq --start-server")
+	hl.exec_cmd("clipse -listen")
 	hl.exec_cmd("steam -silent")
 	hl.exec_cmd("/usr/bin/kdeconnectd")
 	hl.exec_cmd([[gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"]])
@@ -169,6 +169,7 @@ hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + T", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall waybar && waybar"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(terminal .. " --class=com.clipse -e 'clipse'"))
 
 -- Screenshots
 hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m output"))
@@ -267,6 +268,13 @@ end)
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
+
+hl.window_rule({
+	name = "float-clipse",
+	match = { class = "com.clipse" },
+	float = true,
+	size = { 622, 652 },
+})
 
 hl.window_rule({
 	name = "float-fcitx",

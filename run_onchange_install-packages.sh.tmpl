@@ -12,7 +12,6 @@ PACKAGES="
 7zip
 brightnessctl
 chezmoi
-copyq
 fastfetch
 fcitx5
 fcitx5-chinese-addons
@@ -61,6 +60,7 @@ sudo pacman -S --needed --noconfirm $PACKAGES
 # AUR 包 (在 Hyprland 配置中有引用)
 if command -v yay >/dev/null 2>&1; then
     AUR_PACKAGES="
+    clipse
     google-chrome
     wlogout
     zen-browser-bin
