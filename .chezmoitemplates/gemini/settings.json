@@ -33,14 +33,38 @@
     "showStatusInTitle": true,
     "footer": {
       "hideSandboxStatus": false,
-      "hideModelInfo": false
+      "hideModelInfo": false,
+      "items": [
+        "workspace",
+        "git-branch",
+        "model-name",
+        "quota",
+        "memory-usage",
+        "context-used"
+      ],
+      "hideContextPercentage": false
     },
-    "showMemoryUsage": true
+    "showMemoryUsage": true,
+    "inlineThinkingMode": "full",
+    "hideTips": false,
+    "showModelInfoInChat": true,
+    "showUserIdentity": false,
+    "terminalBuffer": true,
+    "errorVerbosity": "full"
   },
   "general": {
     "vimMode": false,
     "previewFeatures": true,
-    "preferredEditor": "neovim"
+    "preferredEditor": "neovim",
+    "defaultApprovalMode": "default",
+    "sessionRetention": {
+      "maxAge": "30d"
+    },
+    "enableNotifications": true,
+    "notificationMethod": "auto",
+    "plan": {
+      "enabled": false
+    }
   },
   "output": {
     "format": "text"
@@ -49,9 +73,7 @@
     "skills": true,
     "enableAgents": true
   },
-  "mcpServers": {
-    "gh_grep": {
-      "url": "https://mcp.grep.app"
-    }
+  "model": {
+    "name": "auto-gemini-3"
   }
 }
