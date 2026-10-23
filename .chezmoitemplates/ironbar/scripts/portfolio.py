@@ -11,58 +11,64 @@ CACHE_FILE = "/tmp/portfolio_cache.json"
 TOOLTIP_FILE = "/tmp/portfolio_tooltip"
 CACHE_TTL = 1200  # 20 分鐘
 
-# 持股資料設定
-HOLDINGS = [
-    {
-        "name": "0050",
-        "symbol": "0050.TW",
-        "shares": 409.0,
-        "cost": 41866.0,
-        "currency": "TWD",
-    },
-    {
-        "name": "00881",
-        "symbol": "00881.TW",
-        "shares": 859.0,
-        "cost": 38812.0,
-        "currency": "TWD",
-    },
-    {
-        "name": "2330",
-        "symbol": "2330.TW",
-        "shares": 46.0,
-        "cost": 89377.0,
-        "currency": "TWD",
-    },
-    {
-        "name": "GOOGL",
-        "symbol": "GOOGL",
-        "shares": 1.09194,
-        "cost": 400.4,
-        "currency": "USD",
-    },
-    {
-        "name": "QQQ",
-        "symbol": "QQQ",
-        "shares": 0.6858,
-        "cost": 500.5,
-        "currency": "USD",
-    },
-    {
-        "name": "TSLA",
-        "symbol": "TSLA",
-        "shares": 1.10478,
-        "cost": 400.4,
-        "currency": "USD",
-    },
-    {
-        "name": "VOO",
-        "symbol": "VOO",
-        "shares": 0.57024,
-        "cost": 400.2,
-        "currency": "USD",
-    },
-]
+
+def get_config_path() -> str:
+    env_path = os.environ.get("IRONBAR_PORTFOLIO_CONFIG") or os.environ.get(
+        "IRONBAR_STOCKS_CONFIG"
+    )
+    if env_path:
+        return env_path
+
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    candidates = [
+        os.path.join(script_dir, "portfolio.json"),
+        os.path.expanduser("~/.config/ironbar/scripts/portfolio.json"),
+        os.path.expanduser("~/.config/ironbar/portfolio.json"),
+        os.path.join(script_dir, "stocks.json"),
+        os.path.expanduser("~/.config/ironbar/scripts/stocks.json"),
+        os.path.expanduser("~/.config/ironbar/stocks.json"),
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+
+    return os.path.join(script_dir, "portfolio.json")
+
+
+def load_holdings() -> list:
+    config_path = get_config_path()
+    if not os.path.exists(config_path):
+        return []
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            if isinstance(data, list):
+                return data
+            elif isinstance(data, dict):
+                if "holdings" in data and isinstance(data["holdings"], list):
+                    return data["holdings"]
+                if "stocks" in data and isinstance(data["stocks"], list):
+                    return data["stocks"]
+            return []
+    except Exception as e:
+        print(f"Error loading {config_path}: {e}", file=sys.stderr)
+        return []
+
+
+def is_cache_valid(cached: dict) -> bool:
+    if not cached:
+        return False
+    ts = cached.get("timestamp", 0)
+    if time.time() - ts > CACHE_TTL:
+        return False
+    config_path = get_config_path()
+    if os.path.exists(config_path):
+        try:
+            if os.path.getmtime(config_path) > ts:
+                return False
+        except Exception:
+            pass
+    return True
 
 
 def fetch_price(symbol: str) -> float:
@@ -77,8 +83,24 @@ def fetch_price(symbol: str) -> float:
 
 
 def fetch_all() -> dict:
-    symbols_to_fetch = [h["symbol"] for h in HOLDINGS] + ["USDTWD=X"]
-    with ThreadPoolExecutor(max_workers=7) as executor:
+    holdings = load_holdings()
+    if not holdings:
+        data = {
+            "timestamp": time.time(),
+            "total_cost_twd": 0.0,
+            "total_val_twd": 0.0,
+            "total_pnl_twd": 0.0,
+            "total_pct": 0.0,
+            "pnl_sign": "+",
+            "css_class": "flat",
+            "has_holdings": False,
+            "tooltip": "【資產總覽】\n尚未設定持股資料，請於 portfolio.json 設定",
+        }
+        save_cache(data)
+        return data
+
+    symbols_to_fetch = [h["symbol"] for h in holdings] + ["USDTWD=X"]
+    with ThreadPoolExecutor(max_workers=min(len(symbols_to_fetch), 10)) as executor:
         results = list(executor.map(fetch_price, symbols_to_fetch))
 
     prices = dict(zip(symbols_to_fetch, results))
@@ -88,11 +110,12 @@ def fetch_all() -> dict:
     total_val_twd = 0.0
     details = []
 
-    for h in HOLDINGS:
+    for h in holdings:
         price = prices.get(h["symbol"], 0.0)
-        cost = h["cost"]
-        shares = h["shares"]
-        cur = h["currency"]
+        cost = float(h.get("cost", 0.0))
+        shares = float(h.get("shares", 0.0))
+        cur = h.get("currency", "TWD")
+        name = h.get("name", h.get("symbol", ""))
 
         val_orig = shares * price
         pnl_orig = val_orig - cost
@@ -104,7 +127,7 @@ def fetch_all() -> dict:
         total_val_twd += val_orig * rate
 
         details.append(
-            f"{h['name']:<6} 現價: {price:>7.2f} {cur} | 成本: {cost:>7.1f} {cur}\n"
+            f"{name:<6} 現價: {price:>7.2f} {cur} | 成本: {cost:>7.1f} {cur}\n"
             f"       現值: {val_orig:>7.1f} {cur} | 損益: {sign}{pnl_orig:>7.1f} {cur} ({sign}{pct:.2f}%)"
         )
 
@@ -130,6 +153,7 @@ def fetch_all() -> dict:
         "total_pct": total_pct,
         "pnl_sign": pnl_sign,
         "css_class": css_class,
+        "has_holdings": True,
         "tooltip": "\n".join(tooltip_lines),
     }
 
@@ -158,6 +182,9 @@ def load_cache() -> dict:
 
 
 def format_markup(data: dict) -> str:
+    if not data.get("has_holdings", True) and data.get("total_val_twd", 0.0) == 0.0:
+        return "<span foreground='#6c7086'>未設定持股</span>"
+
     is_masked = os.path.exists(PRIVACY_FILE)
     pnl_sign = data.get("pnl_sign", "+")
     total_pct = data.get("total_pct", 0.0)
@@ -234,14 +261,16 @@ def main():
 
     elif arg in ("json", "--json"):
         cached = load_cache()
-        if not cached or (time.time() - cached.get("timestamp", 0) > CACHE_TTL):
+        if not is_cache_valid(cached):
             cached = fetch_all()
         is_masked = os.path.exists(PRIVACY_FILE)
         pnl_sign = cached.get("pnl_sign", "+")
         total_pct = cached.get("total_pct", 0.0)
         total_val_twd = cached.get("total_val_twd", 0.0)
         total_pnl_twd = cached.get("total_pnl_twd", 0.0)
-        if is_masked:
+        if not cached.get("has_holdings", True) and total_val_twd == 0.0:
+            bar_text = "未設定持股"
+        elif is_masked:
             bar_text = f"**** ({pnl_sign}{total_pct:.2f}%)"
         else:
             bar_text = f"${total_val_twd:,.0f} ({pnl_sign}{total_pnl_twd:,.0f} | {pnl_sign}{total_pct:.2f}%)"
@@ -260,7 +289,7 @@ def main():
     else:
         # --render
         cached = load_cache()
-        if cached and (time.time() - cached.get("timestamp", 0) < CACHE_TTL):
+        if is_cache_valid(cached):
             print(format_markup(cached), flush=True)
         else:
             try:

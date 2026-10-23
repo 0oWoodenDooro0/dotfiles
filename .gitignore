@@ -1,0 +1,7 @@
+.sidecar
+
+# Ironbar stock portfolio (holdings & prices)
+*portfolio.json
+*stocks.json
+!*portfolio.json.example
+!*stocks.json.example
