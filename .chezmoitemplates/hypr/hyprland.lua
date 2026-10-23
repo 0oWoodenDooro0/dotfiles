@@ -21,18 +21,21 @@ local browser = "/home/user/.tarball-installations/zen/zen"
 ---- AUTOSTART ----
 -------------------
 hl.on("hyprland.start", function()
+	hl.exec_cmd("gnome-keyring-daemon --start --components=pkcs11,secrets,ssh")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
+
 	hl.exec_cmd("waybar & swaync & hyprpaper")
 	hl.exec_cmd("fcitx5 -d -r")
 	hl.exec_cmd("clipse -listen")
-	hl.exec_cmd("steam -silent")
-	hl.exec_cmd("/usr/bin/kdeconnectd")
 	hl.exec_cmd([[gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"]])
+
 	hl.exec_cmd(browser)
 	hl.exec_cmd("legcord")
+	hl.exec_cmd("steam -silent")
+	hl.exec_cmd("/usr/bin/kdeconnectd")
 	hl.exec_cmd("blueman-applet")
-	hl.exec_cmd("gnome-keyring-daemon --start --components=pkcs11,secrets,ssh")
 	hl.exec_cmd("keepassxc")
+	hl.exec_cmd("antigravity")
 end)
 
 -------------------------------
@@ -46,6 +49,9 @@ hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("GTK_IM_MODULE", "fcitx")
 hl.env("QT_IM_MODULE", "fcitx")
 hl.env("XMODIFIERS", "@im=fcitx")
+hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
+hl.env("XDG_SESSION_TYPE", "wayland")
+hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
 -----------------------
 ---- LOOK AND FEEL ----
@@ -105,6 +111,7 @@ hl.config({
 	misc = {
 		force_default_wallpaper = 1,
 		disable_hyprland_logo = true,
+		focus_on_activate = true,
 	},
 
 	input = {
@@ -165,11 +172,13 @@ hl.bind(mainMod .. " + W", hl.dsp.window.close())
 hl.bind("SUPER + Q", hl.dsp.exit())
 hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + T", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall waybar && waybar"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(terminal .. " --class=com.clipse -e 'clipse'"))
+hl.bind("SUPER + O", hl.dsp.exec_cmd("handy --toggle-transcription"))
 
 -- Screenshots
 hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m output"))
@@ -262,7 +271,14 @@ end)
 hl.bind("SUPER + F11", hl.dsp.submap("clean"))
 
 hl.define_submap("clean", function()
-	hl.bind("SUPER + F11", hl.dsp.submap("reset"))
+	hl.bind("F1", hl.dsp.focus({ workspace = 1 }))
+	hl.bind("F2", hl.dsp.focus({ workspace = 2 }))
+	hl.bind("F3", hl.dsp.focus({ workspace = 3 }))
+	hl.bind("F4", hl.dsp.focus({ workspace = 4 }))
+	hl.bind("F5", hl.dsp.focus({ workspace = 5 }))
+	hl.bind("F6", hl.dsp.focus({ workspace = 6 }))
+
+	hl.bind("F11", hl.dsp.submap("reset"))
 end)
 
 --------------------------------
