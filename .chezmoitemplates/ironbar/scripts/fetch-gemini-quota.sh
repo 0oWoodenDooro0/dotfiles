@@ -7,7 +7,7 @@ if [[ -z "$PID" ]]; then
 fi
 
 if [[ -z "$PID" ]]; then
-  echo '{"text":"󰚩 Idle","tooltip":"Antigravity 服務未執行","class":"idle"}'
+  echo '{"text":"󱚩 Idle","tooltip":"Antigravity 服務未執行","class":"idle"}'
   exit 0
 fi
 
@@ -17,7 +17,7 @@ TOKEN=$(echo "$CMDLINE" | grep -oP '(?<=--csrf_token\s)[^\s]+' || echo "$CMDLINE
 # 2. 獲取本地監聽埠清單
 PORTS=($(ss -tulpn 2>/dev/null | grep "pid=$PID," | grep -oP '127\.0\.0\.1:\K[0-9]+' | sort -u))
 if [[ ${#PORTS[@]} -eq 0 ]]; then
-  echo '{"text":"󰚩 Idle","tooltip":"找不到本地監聽連接埠","class":"idle"}'
+  echo '{"text":"󱚩 Idle","tooltip":"找不到本地監聽連接埠","class":"idle"}'
   exit 0
 fi
 
@@ -31,43 +31,122 @@ for P in "${PORTS[@]}"; do
     -H "X-Codeium-Csrf-Token: $TOKEN" \
     -d '{}' 2>/dev/null)
 
-  if [[ "$RESP" == *"gemini-weekly"* ]]; then
+  if [[ "$RESP" == *"groups"* || "$RESP" == *"gemini"* ]]; then
     RESPONSE="$RESP"
     break
   fi
 done
 
 if [[ -z "$RESPONSE" ]]; then
-  echo '{"text":"󰚩 Err","tooltip":"無法連線至本地配額服務","class":"error"}'
+  echo '{"text":"󱚩 Err","tooltip":"無法連線至本地配額服務","class":"error"}'
   exit 0
 fi
 
-# 4. 精確提取 Gemini 的 Weekly 與 5h 額度
+# 4. 提取 Gemini (Flash/Pro)、Argon 與其他模型的額度
 echo "$RESPONSE" | jq -c '
-  # 鎖定 Gemini Models 群組下的 buckets
-  (.response.groups[]? | select(.displayName == "Gemini Models").buckets) as $buckets |
+  # Helper 函數
+  def to_pct(f): if f != null then (f * 100 | round) else null end;
+  def to_str(v): if v != null then "\(v)%" else "--" end;
 
-  # 提取 5h 與 weekly bucket
-  ($buckets[]? | select(.bucketId == "gemini-5h")) as $b_5h |
-  ($buckets[]? | select(.bucketId == "gemini-weekly")) as $b_wk |
+  # Gemini Models (Flash / Pro)
+  ((.response.groups[]? | select(.displayName == "Gemini Models").buckets) // []) as $f_buckets |
+  ([$f_buckets[]? | select(.bucketId == "gemini-5h")][0]) as $f_5h |
+  ([$f_buckets[]? | select(.bucketId == "gemini-weekly")][0]) as $f_wk |
 
-  # 百分比轉換
-  (if $b_5h.remainingFraction != null then ($b_5h.remainingFraction * 100 | round) else null end) as $h5_val |
-  (if $b_wk.remainingFraction != null then ($b_wk.remainingFraction * 100 | round) else null end) as $wk_val |
+  to_pct($f_5h.remainingFraction) as $f_5h_val |
+  to_pct($f_wk.remainingFraction) as $f_wk_val |
+  to_str($f_5h_val) as $f_5h_str |
+  to_str($f_wk_val) as $f_wk_str |
 
-  (if $h5_val != null then "\($h5_val)%" else "--" end) as $h5_str |
-  (if $wk_val != null then "\($wk_val)%" else "--" end) as $wk_str |
+  # Gemini 4 Argon
+  ([.response.groups[]? | select(.displayName | test("Argon"; "i")).buckets[]?]) as $ar_buckets |
+  ([$ar_buckets[]? | select(.bucketId | test("5h"))][0]) as $ar_5h |
+  ([$ar_buckets[]? | select(.bucketId | test("weekly"))][0] // $ar_buckets[0]) as $ar_wk |
 
-  ($b_5h.resetTime // "N/A") as $h5_reset |
-  ($b_wk.resetTime // "N/A") as $wk_reset |
+  to_pct($ar_5h.remainingFraction) as $ar_5h_val |
+  to_pct($ar_wk.remainingFraction) as $ar_wk_val |
+  to_str($ar_5h_val) as $ar_5h_str |
+  to_str($ar_wk_val) as $ar_wk_str |
 
-  # 依照最低額度設定樣式 (<=15% 為 critical，<=35% 為 warning)
-  ([$h5_val, $wk_val] | map(select(. != null)) | min // 100) as $min_val |
+  # Claude / GPT (3p)
+  ([.response.groups[]? | select(.displayName | test("Claude|GPT|3p"; "i")).buckets[]?]) as $tp_buckets |
+  ([$tp_buckets[]? | select(.bucketId == "3p-5h")][0]) as $tp_5h |
+  ([$tp_buckets[]? | select(.bucketId == "3p-weekly")][0]) as $tp_wk |
+
+  to_pct($tp_5h.remainingFraction) as $tp_5h_val |
+  to_pct($tp_wk.remainingFraction) as $tp_wk_val |
+  to_str($tp_5h_val) as $tp_5h_str |
+  to_str($tp_wk_val) as $tp_wk_str |
+
+  # Bar 文字組合
+  (
+    if $f_5h_val != null and $f_wk_val != null then
+      "Flash: \($f_5h_str) (Wk: \($f_wk_str))"
+    elif $f_5h_val != null then
+      "Flash: \($f_5h_str)"
+    elif $f_wk_val != null then
+      "Flash: \($f_wk_str)"
+    else
+      null
+    end
+  ) as $flash_part |
+
+  (
+    if $ar_5h_val != null and $ar_wk_val != null then
+      "Argon: \($ar_5h_str) (Wk: \($ar_wk_str))"
+    elif $ar_wk_val != null then
+      "Argon: \($ar_wk_str)"
+    elif $ar_5h_val != null then
+      "Argon: \($ar_5h_str)"
+    else
+      null
+    end
+  ) as $argon_part |
+
+  (
+    [$flash_part, $argon_part] | map(select(. != null)) | join(" | ")
+  ) as $parts |
+
+  (if ($parts | length) > 0 then "󱚩 " + $parts else "󱚩 No Data" end) as $bar_text |
+
+  # 樣式計算 (<=15% 為 critical，<=35% 為 warning)
+  ([$f_5h_val, $f_wk_val, $ar_5h_val, $ar_wk_val] | map(select(. != null)) | min // 100) as $min_val |
   (if $min_val <= 15 then "critical" elif $min_val <= 35 then "warning" else "normal" end) as $cls |
 
+  # Tooltip 區塊
+  (
+    if ($f_buckets | length) > 0 then
+      "【Gemini (Flash / Pro)】" +
+      (if $f_5h_val != null then "\n• 5 小時額度 (5h): \($f_5h_str) (重設: \($f_5h.resetTime // "N/A"))" else "" end) +
+      (if $f_wk_val != null then "\n• 每週額度 (Wk):   \($f_wk_str) (重設: \($f_wk.resetTime // "N/A"))" else "" end)
+    else
+      ""
+    end
+  ) as $tt_flash |
+
+  (
+    if ($ar_buckets | length) > 0 then
+      "\n\n【Gemini 4 Argon】" +
+      (if $ar_5h_val != null then "\n• 5 小時額度 (5h): \($ar_5h_str) (重設: \($ar_5h.resetTime // "N/A"))" else "" end) +
+      (if $ar_wk_val != null then "\n• 每週額度 (Wk):   \($ar_wk_str) (重設: \($ar_wk.resetTime // "N/A"))" else "" end)
+    else
+      ""
+    end
+  ) as $tt_argon |
+
+  (
+    if ($tp_buckets | length) > 0 then
+      "\n\n【Claude / GPT】" +
+      (if $tp_5h_val != null then "\n• 5 小時額度 (5h): \($tp_5h_str) (重設: \($tp_5h.resetTime // "N/A"))" else "" end) +
+      (if $tp_wk_val != null then "\n• 每週額度 (Wk):   \($tp_wk_str) (重設: \($tp_wk.resetTime // "N/A"))" else "" end)
+    else
+      ""
+    end
+  ) as $tt_tp |
+
   {
-    "text": "󰚩 5h: \($h5_str) | Wk: \($wk_str)",
-    "tooltip": "Gemini 剩餘配額\n────────────────\n• 5 小時額度 (5h): \($h5_str) (重設: \($h5_reset))\n• 每週額度 (Wk):  \($wk_str) (重設: \($wk_reset))",
+    "text": $bar_text,
+    "tooltip": ("Antigravity 剩餘配額\n────────────────\n" + $tt_flash + $tt_argon + $tt_tp),
     "class": $cls
   }
-' 2>/dev/null || echo '{"text":"󰚩 Parse Err","tooltip":"JSON 解析失敗","class":"error"}'
+' 2>/dev/null || echo '{"text":"󱚩 Parse Err","tooltip":"JSON 解析失敗","class":"error"}'
