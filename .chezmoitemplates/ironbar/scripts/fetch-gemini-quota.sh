@@ -7,7 +7,7 @@ if [[ -z "$PID" ]]; then
 fi
 
 if [[ -z "$PID" ]]; then
-  echo '{"text":"󱚩 Idle","tooltip":"Antigravity 服務未執行","class":"idle"}'
+  echo '{"text":"󰚩 Idle","tooltip":"Antigravity 服務未執行","class":"idle"}'
   exit 0
 fi
 
@@ -17,7 +17,7 @@ TOKEN=$(echo "$CMDLINE" | grep -oP '(?<=--csrf_token\s)[^\s]+' || echo "$CMDLINE
 # 2. 獲取本地監聽埠清單
 PORTS=($(ss -tulpn 2>/dev/null | grep "pid=$PID," | grep -oP '127\.0\.0\.1:\K[0-9]+' | sort -u))
 if [[ ${#PORTS[@]} -eq 0 ]]; then
-  echo '{"text":"󱚩 Idle","tooltip":"找不到本地監聽連接埠","class":"idle"}'
+  echo '{"text":"󰚩 Idle","tooltip":"找不到本地監聽連接埠","class":"idle"}'
   exit 0
 fi
 
@@ -38,7 +38,7 @@ for P in "${PORTS[@]}"; do
 done
 
 if [[ -z "$RESPONSE" ]]; then
-  echo '{"text":"󱚩 Err","tooltip":"無法連線至本地配額服務","class":"error"}'
+  echo '{"text":"󰚩 Err","tooltip":"無法連線至本地配額服務","class":"error"}'
   exit 0
 fi
 
@@ -107,7 +107,7 @@ echo "$RESPONSE" | jq -c '
     [$flash_part, $argon_part] | map(select(. != null)) | join(" | ")
   ) as $parts |
 
-  (if ($parts | length) > 0 then "󱚩 " + $parts else "󱚩 No Data" end) as $bar_text |
+  (if ($parts | length) > 0 then "󰚩 " + $parts else "󰚩 No Data" end) as $bar_text |
 
   # 樣式計算 (<=15% 為 critical，<=35% 為 warning)
   ([$f_5h_val, $f_wk_val, $ar_5h_val, $ar_wk_val] | map(select(. != null)) | min // 100) as $min_val |
@@ -149,4 +149,4 @@ echo "$RESPONSE" | jq -c '
     "tooltip": ("Antigravity 剩餘配額\n────────────────\n" + $tt_flash + $tt_argon + $tt_tp),
     "class": $cls
   }
-' 2>/dev/null || echo '{"text":"󱚩 Parse Err","tooltip":"JSON 解析失敗","class":"error"}'
+' 2>/dev/null || echo '{"text":"󰚩 Parse Err","tooltip":"JSON 解析失敗","class":"error"}'
