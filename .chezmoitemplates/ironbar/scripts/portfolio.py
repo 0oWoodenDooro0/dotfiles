@@ -16,8 +16,8 @@ HOLDINGS = [
     {
         "name": "0050",
         "symbol": "0050.TW",
-        "shares": 302.0,
-        "cost": 29916.0,
+        "shares": 409.0,
+        "cost": 41866.0,
         "currency": "TWD",
     },
     {
@@ -30,8 +30,8 @@ HOLDINGS = [
     {
         "name": "2330",
         "symbol": "2330.TW",
-        "shares": 43.0,
-        "cost": 81761.0,
+        "shares": 46.0,
+        "cost": 89377.0,
         "currency": "TWD",
     },
     {
@@ -44,8 +44,8 @@ HOLDINGS = [
     {
         "name": "QQQ",
         "symbol": "QQQ",
-        "shares": 0.55238,
-        "cost": 400.4,
+        "shares": 0.6858,
+        "cost": 500.5,
         "currency": "USD",
     },
     {
@@ -58,8 +58,8 @@ HOLDINGS = [
     {
         "name": "VOO",
         "symbol": "VOO",
-        "shares": 0.28618,
-        "cost": 200.1,
+        "shares": 0.57024,
+        "cost": 400.2,
         "currency": "USD",
     },
 ]
@@ -270,7 +270,9 @@ def main():
                 if cached:
                     print(format_markup(cached), flush=True)
                 else:
-                    print("<span foreground='#6c7086'>無法取得股票資訊</span>", flush=True)
+                    print(
+                        "<span foreground='#6c7086'>無法取得股票資訊</span>", flush=True
+                    )
 
 
 if __name__ == "__main__":
