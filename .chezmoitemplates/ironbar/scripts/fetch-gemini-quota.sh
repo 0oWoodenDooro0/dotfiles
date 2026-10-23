@@ -1,55 +1,50 @@
 #!/usr/bin/env bash
 
-# 1. 自動偵測 language_server PID 與 CSRF Token
-PID=$(pgrep -f "resources/bin/language_server" | head -n 1)
-if [[ -z "$PID" ]]; then
-  PID=$(pgrep -f "language_server.*antigravity" | head -n 1)
+SERVICE_PORT="49999"
+SERVICE_TOKEN="antigravity-quota-service-token"
+
+# 1. 優先查詢本地常駐的 antigravity-quota 服務
+RESPONSE=$(curl -s -k -m 2 -X POST "https://127.0.0.1:${SERVICE_PORT}/exa.language_server_pb.LanguageServerService/RetrieveUserQuotaSummary" \
+  -H "Content-Type: application/json" \
+  -H "Connect-Protocol-Version: 1" \
+  -H "X-Codeium-Csrf-Token: ${SERVICE_TOKEN}" \
+  -d '{}' 2>/dev/null)
+
+# 2. 自動回退：若常駐服務未啟動，偵測本機手動執行的 Antigravity GUI
+if [[ -z "$RESPONSE" || "$RESPONSE" != *"groups"* ]]; then
+  PID=$(pgrep -f "resources/bin/language_server.*standalone" | head -n 1)
+  [[ -z "$PID" ]] && PID=$(pgrep -f "language_server.*antigravity" | head -n 1)
+
+  if [[ -n "$PID" ]]; then
+    CMDLINE=$(tr '\0' ' ' <"/proc/$PID/cmdline" 2>/dev/null)
+    GUI_TOKEN=$(echo "$CMDLINE" | grep -oP '(?<=--csrf_token\s)[^\s]+' || echo "$CMDLINE" | grep -oP '(?<=--csrf_token=)[^\s]+')
+    PORTS=($(ss -tulpn 2>/dev/null | grep "pid=$PID," | grep -oP '127\.0\.0\.1:\K[0-9]+' | sort -u))
+    for P in "${PORTS[@]}"; do
+      RESP=$(curl -s -k -m 2 -X POST "https://127.0.0.1:${P}/exa.language_server_pb.LanguageServerService/RetrieveUserQuotaSummary" \
+        -H "Content-Type: application/json" \
+        -H "Connect-Protocol-Version: 1" \
+        -H "X-Codeium-Csrf-Token: $GUI_TOKEN" \
+        -d '{}' 2>/dev/null)
+      if [[ "$RESP" == *"groups"* ]]; then
+        RESPONSE="$RESP"
+        break
+      fi
+    done
+  fi
 fi
 
-if [[ -z "$PID" ]]; then
+if [[ -z "$RESPONSE" || "$RESPONSE" != *"groups"* ]]; then
   echo '{"text":"󰚩 Idle","tooltip":"Antigravity 服務未執行","class":"idle"}'
   exit 0
 fi
 
-CMDLINE=$(tr '\0' ' ' <"/proc/$PID/cmdline" 2>/dev/null)
-TOKEN=$(echo "$CMDLINE" | grep -oP '(?<=--csrf_token\s)[^\s]+' || echo "$CMDLINE" | grep -oP '(?<=--csrf_token=)[^\s]+')
-
-# 2. 獲取本地監聽埠清單
-PORTS=($(ss -tulpn 2>/dev/null | grep "pid=$PID," | grep -oP '127\.0\.0\.1:\K[0-9]+' | sort -u))
-if [[ ${#PORTS[@]} -eq 0 ]]; then
-  echo '{"text":"󰚩 Idle","tooltip":"找不到本地監聽連接埠","class":"idle"}'
-  exit 0
-fi
-
-RESPONSE=""
-
-# 3. 探測有效的 HTTPS RPC 端點
-for P in "${PORTS[@]}"; do
-  RESP=$(curl -s -k -m 2 -X POST "https://127.0.0.1:${P}/exa.language_server_pb.LanguageServerService/RetrieveUserQuotaSummary" \
-    -H "Content-Type: application/json" \
-    -H "Connect-Protocol-Version: 1" \
-    -H "X-Codeium-Csrf-Token: $TOKEN" \
-    -d '{}' 2>/dev/null)
-
-  if [[ "$RESP" == *"groups"* || "$RESP" == *"gemini"* ]]; then
-    RESPONSE="$RESP"
-    break
-  fi
-done
-
-if [[ -z "$RESPONSE" ]]; then
-  echo '{"text":"󰚩 Err","tooltip":"無法連線至本地配額服務","class":"error"}'
-  exit 0
-fi
-
-# 4. 提取 Gemini (Flash/Pro)、Argon 與其他模型的額度
+# 3. 格式化為 Ironbar JSON
 echo "$RESPONSE" | jq -c '
-  # Helper 函數
   def to_pct(f): if f != null then (f * 100 | round) else null end;
   def to_str(v): if v != null then "\(v)%" else "--" end;
 
   # Gemini Models (Flash / Pro)
-  ((.response.groups[]? | select(.displayName == "Gemini Models").buckets) // []) as $f_buckets |
+  ([(.groups // .response.groups // [])[]? | select(.displayName == "Gemini Models").buckets[]?]) as $f_buckets |
   ([$f_buckets[]? | select(.bucketId == "gemini-5h")][0]) as $f_5h |
   ([$f_buckets[]? | select(.bucketId == "gemini-weekly")][0]) as $f_wk |
 
@@ -59,7 +54,7 @@ echo "$RESPONSE" | jq -c '
   to_str($f_wk_val) as $f_wk_str |
 
   # Gemini 4 Argon
-  ([.response.groups[]? | select(.displayName | test("Argon"; "i")).buckets[]?]) as $ar_buckets |
+  ([(.groups // .response.groups // [])[]? | select(.displayName | test("Argon"; "i")).buckets[]?]) as $ar_buckets |
   ([$ar_buckets[]? | select(.bucketId | test("5h"))][0]) as $ar_5h |
   ([$ar_buckets[]? | select(.bucketId | test("weekly"))][0] // $ar_buckets[0]) as $ar_wk |
 
@@ -69,7 +64,7 @@ echo "$RESPONSE" | jq -c '
   to_str($ar_wk_val) as $ar_wk_str |
 
   # Claude / GPT (3p)
-  ([.response.groups[]? | select(.displayName | test("Claude|GPT|3p"; "i")).buckets[]?]) as $tp_buckets |
+  ([(.groups // .response.groups // [])[]? | select(.displayName | test("Claude|GPT|3p"; "i")).buckets[]?]) as $tp_buckets |
   ([$tp_buckets[]? | select(.bucketId == "3p-5h")][0]) as $tp_5h |
   ([$tp_buckets[]? | select(.bucketId == "3p-weekly")][0]) as $tp_wk |
 
@@ -117,8 +112,8 @@ echo "$RESPONSE" | jq -c '
   (
     if ($f_buckets | length) > 0 then
       "【Gemini (Flash / Pro)】" +
-      (if $f_5h_val != null then "\n• 5 小時額度 (5h): \($f_5h_str) (重設: \($f_5h.resetTime // "N/A"))" else "" end) +
-      (if $f_wk_val != null then "\n• 每週額度 (Wk):   \($f_wk_str) (重設: \($f_wk.resetTime // "N/A"))" else "" end)
+      (if $f_5h_val != null then "\n• 5 小時額度 (5h): \($f_5h_str) (\(if $f_5h.resetTime then "重設: " + $f_5h.resetTime else "N/A" end))" else "" end) +
+      (if $f_wk_val != null then "\n• 每週額度 (Wk):   \($f_wk_str) (\(if $f_wk.resetTime then "重設: " + $f_wk.resetTime else "N/A" end))" else "" end)
     else
       ""
     end
@@ -127,8 +122,8 @@ echo "$RESPONSE" | jq -c '
   (
     if ($ar_buckets | length) > 0 then
       "\n\n【Gemini 4 Argon】" +
-      (if $ar_5h_val != null then "\n• 5 小時額度 (5h): \($ar_5h_str) (重設: \($ar_5h.resetTime // "N/A"))" else "" end) +
-      (if $ar_wk_val != null then "\n• 每週額度 (Wk):   \($ar_wk_str) (重設: \($ar_wk.resetTime // "N/A"))" else "" end)
+      (if $ar_5h_val != null then "\n• 5 小時額度 (5h): \($ar_5h_str) (\(if $ar_5h.resetTime then "重設: " + $ar_5h.resetTime else "N/A" end))" else "" end) +
+      (if $ar_wk_val != null then "\n• 每週額度 (Wk):   \($ar_wk_str) (\(if $ar_wk.resetTime then "重設: " + $ar_wk.resetTime else "N/A" end))" else "" end)
     else
       ""
     end
@@ -137,8 +132,8 @@ echo "$RESPONSE" | jq -c '
   (
     if ($tp_buckets | length) > 0 then
       "\n\n【Claude / GPT】" +
-      (if $tp_5h_val != null then "\n• 5 小時額度 (5h): \($tp_5h_str) (重設: \($tp_5h.resetTime // "N/A"))" else "" end) +
-      (if $tp_wk_val != null then "\n• 每週額度 (Wk):   \($tp_wk_str) (重設: \($tp_wk.resetTime // "N/A"))" else "" end)
+      (if $tp_5h_val != null then "\n• 5 小時額度 (5h): \($tp_5h_str) (\(if $tp_5h.resetTime then "重設: " + $tp_5h.resetTime else "N/A" end))" else "" end) +
+      (if $tp_wk_val != null then "\n• 每週額度 (Wk):   \($tp_wk_str) (\(if $tp_wk.resetTime then "重設: " + $tp_wk.resetTime else "N/A" end))" else "" end)
     else
       ""
     end

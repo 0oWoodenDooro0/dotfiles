@@ -1,0 +1,14 @@
+[Unit]
+Description=Antigravity Headless Language Server (Quota Provider)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/Antigravity/resources/bin/language_server --standalone --override_ide_name antigravity --subclient_type hub --override_ide_version 2.24.0 --override_user_agent_name antigravity --https_server_port 49999 --csrf_token antigravity-quota-service-token --app_data_dir antigravity --api_server_url https://generativelanguage.googleapis.com --cloud_code_endpoint https://daily-cloudcode-pa.googleapis.com
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

@@ -35,7 +35,6 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("/usr/bin/kdeconnectd")
 	hl.exec_cmd("blueman-applet")
 	hl.exec_cmd("keepassxc")
-	hl.exec_cmd("antigravity")
 end)
 
 -------------------------------
