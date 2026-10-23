@@ -1,0 +1,91 @@
+position = "top"
+height = 48
+anchor_to_edges = true
+
+# ----------------------------------------------------
+# Left modules (對應 Waybar modules-left)
+# ----------------------------------------------------
+[[start]]
+type = "script"
+name = "custom-updates"
+mode = "poll"
+interval = 600000
+cmd = "~/.config/ironbar/scripts/arch-updates.sh"
+show_if = { cmd = "test -f /tmp/arch-updates-has-updates", interval = 2000 }
+tooltip = "{{ "{{" }}5000:~/.config/ironbar/scripts/arch-updates-tooltip.sh{{ "}}" }}"
+on_click_left = "ghostty -e sh -c 'yay && ~/.config/ironbar/scripts/arch-updates.sh'"
+on_click_right = "~/.config/ironbar/scripts/arch-updates.sh"
+
+[[start]]
+type = "script"
+name = "custom-portfolio"
+mode = "watch"
+cmd = "~/.config/ironbar/scripts/portfolio.sh watch"
+tooltip = "{{ "{{" }}2000:~/.config/ironbar/scripts/portfolio.sh tooltip{{ "}}" }}"
+on_click_left = "~/.config/ironbar/scripts/portfolio.sh click"
+on_click_right = "~/.config/ironbar/scripts/portfolio.sh refresh"
+
+# ----------------------------------------------------
+# Center module (對應 Waybar modules-center)
+# ----------------------------------------------------
+[[center]]
+type = "workspaces"
+name = "workspaces"
+all_monitors = false
+sort = "index"
+hidden = ["10", "special"]
+format = ""
+
+# ----------------------------------------------------
+# Right modules (對應 Waybar modules-right)
+# ----------------------------------------------------
+[[end]]
+type = "script"
+name = "custom-gemini-quota"
+mode = "poll"
+interval = 30000
+cmd = "~/.config/ironbar/scripts/gemini-quota.sh"
+tooltip = "{{ "{{" }}30000:$HOME/.config/ironbar/scripts/fetch-gemini-quota.sh | jq -r .tooltip{{ "}}" }}"
+
+[[end]]
+type = "tray"
+name = "tray"
+icon_size = 16
+
+[[end]]
+type = "bluetooth"
+name = "bluetooth"
+icon_size = 0
+on_click_left = "blueman-manager"
+format = { disabled = "󰂲", enabled = "󰂯", connected = "󰂱", connected_battery = "󰂱" }
+
+[[end]]
+type = "script"
+name = "network"
+mode = "poll"
+interval = 5000
+cmd = "~/.config/ironbar/scripts/network.sh"
+tooltip = "{{ "{{" }}5000:~/.config/ironbar/scripts/network-tooltip.sh{{ "}}" }}"
+on_click_left = "nm-connection-editor"
+
+[[end]]
+type = "script"
+name = "pulseaudio"
+mode = "poll"
+interval = 1000
+cmd = "~/.config/ironbar/scripts/volume.sh"
+tooltip = "{{ "{{" }}1000:~/.config/ironbar/scripts/volume-tooltip.sh{{ "}}" }}"
+on_click_left = "hyprpwcenter"
+
+[[end]]
+type = "clock"
+name = "clock"
+format = "󰅐 %H:%M"
+
+[[end]]
+type = "custom"
+name = "custom-power"
+on_click_left = "wlogout --protocol layer-shell"
+bar = [
+  { type = "button", name = "power-btn", label = "󰐥", on_click = "!wlogout --protocol layer-shell" }
+]

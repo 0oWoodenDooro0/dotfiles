@@ -24,7 +24,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("gnome-keyring-daemon --start --components=pkcs11,secrets,ssh")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
 
-	hl.exec_cmd("waybar & swaync & hyprpaper")
+	hl.exec_cmd("ironbar & swaync & hyprpaper")
 	hl.exec_cmd("fcitx5 -d -r")
 	hl.exec_cmd("clipse -listen")
 	hl.exec_cmd([[gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"]])
@@ -176,7 +176,7 @@ hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" 
 hl.bind(mainMod .. " + space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + T", hl.dsp.layout("togglesplit"))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall waybar && waybar"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("killall -q ironbar; sleep 0.3; ironbar"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(terminal .. " --class=com.clipse -e 'clipse'"))
 hl.bind("SUPER + O", hl.dsp.exec_cmd("handy --toggle-transcription"))
 

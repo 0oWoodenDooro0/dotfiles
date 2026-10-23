@@ -1,0 +1,466 @@
+@import "mocha.css";
+
+/* ----------------------------------------------------
+ * 全域重設與字型設定 (徹底消除選取框)
+ * ---------------------------------------------------- */
+* {
+  font-family: JetBrainsMono Nerd Font;
+  font-size: 16px;
+  outline: none;
+  outline-width: 0;
+  outline-color: transparent;
+  box-shadow: none;
+  -gtk-outline-radius: 0;
+}
+
+*:focus,
+*:focus-visible,
+*:hover,
+*:active {
+  outline: none;
+  outline-width: 0;
+  outline-color: transparent;
+  box-shadow: none;
+}
+
+/* 僅針對工作列內部的按鈕進行重設，絕不污染外部彈出選單 (Popover / Menu) */
+#bar button,
+.bar button {
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  outline-width: 0;
+  outline-color: transparent;
+}
+
+window:not(tooltip):not(.popup),
+.background:not(tooltip):not(.popup),
+#bar,
+.bar {
+  background: transparent;
+  background-color: transparent;
+  color: @text;
+}
+
+/* 給工作列 label 充足的垂直餘裕 (防止 5, 3, 7 等頂端平頭數字在渲染時被裁剪) */
+#bar label,
+.bar label {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* ----------------------------------------------------
+ * 左側獨立島嶼：Updates, Portfolio
+ * ---------------------------------------------------- */
+#custom-updates,
+#custom-portfolio {
+  background: @surface0;
+  padding: 6px 16px;
+  margin: 5px 0 5px 0.5rem;
+  border-radius: 9999px;
+}
+
+#custom-updates {
+  color: @lavender;
+}
+
+#custom-portfolio {
+  color: @text;
+}
+
+/* ----------------------------------------------------
+ * 中間工作區：無選取為正圓形，選取為長條形，上下居中留白
+ * ---------------------------------------------------- */
+#workspaces,
+.workspaces {
+  border-radius: 9999px;
+  margin: 5px 0;
+  background: @surface0;
+  padding: 0 12px;
+}
+
+#workspaces .item,
+.workspaces .item {
+  border-radius: 9999px;
+  background: @rosewater;
+  min-width: 8px;
+  max-width: 8px;
+  min-height: 8px;
+  max-height: 8px;
+  margin: 15px 4px;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  outline-width: 0;
+}
+
+#workspaces .item label,
+.workspaces .item label,
+#workspaces .item *,
+.workspaces .item * {
+  font-size: 0px;
+  min-width: 0;
+  min-height: 0;
+  max-width: 0;
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+#workspaces .item.focused,
+.workspaces .item.focused {
+  border-radius: 9999px;
+  background: @pink;
+  min-width: 52px;
+  max-width: 52px;
+  min-height: 8px;
+  max-height: 8px;
+  margin: 15px 4px;
+}
+
+#workspaces .item:hover,
+.workspaces .item:hover {
+  background: @pink;
+}
+
+#workspaces .item:focus,
+.workspaces .item:focus,
+#workspaces .item:focus-visible,
+.workspaces .item:focus-visible {
+  outline: none;
+  outline-width: 0;
+  box-shadow: none;
+  border: none;
+}
+
+/* ----------------------------------------------------
+ * 右側模組：Gemini 配額 (獨立島嶼)
+ * ---------------------------------------------------- */
+#custom-gemini-quota {
+  background: @surface0;
+  color: @mauve;
+  padding: 6px 16px;
+  margin: 5px 0.5rem 5px 0;
+  border-radius: 9999px;
+}
+
+/* ----------------------------------------------------
+ * 右側模組：系統托盤 (獨立島嶼 + 懸浮尺寸絕對固定)
+ * ---------------------------------------------------- */
+#tray {
+  background: @surface0;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  margin: 5px 0.5rem 5px 0;
+}
+
+/* 托盤圖示在 hover / active / focus 前後維持絕對一致的尺寸與位置，錨點不產生任何晃動 */
+#tray .item,
+.tray .item,
+#tray button,
+.tray button,
+#tray button:hover,
+.tray button:hover,
+#tray button:active,
+.tray button:active,
+#tray button:focus,
+.tray button:focus {
+  margin: 0 4px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* 僅隱藏工作列按鈕本體上的備用文字 (如 "input method") */
+#tray .item > label,
+.tray .item > label,
+#tray button > label,
+.tray button > label,
+#tray > box > button > label {
+  font-size: 0px;
+  min-width: 0;
+  min-height: 0;
+  max-width: 0;
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+/* ----------------------------------------------------
+ * 右鍵快顯選單 (Tray Context Menu / Popover)
+ * 緊湊排列：縮小選項垂直間距
+ * ---------------------------------------------------- */
+popover,
+popover *,
+popover *:hover,
+popovermenu,
+popovermenu *,
+popovermenu *:hover,
+menu,
+menu *,
+menu *:hover {
+  font-size: 14px;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+popover,
+popovermenu {
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+popover > arrow {
+  background: transparent;
+  border: none;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* 單一層背景核心 */
+popover contents,
+popover > contents,
+popovermenu contents,
+popovermenu > contents,
+menu {
+  background-color: @base;
+  color: @text;
+  border: 1px solid @surface1;
+  border-radius: 8px;
+  padding: 3px;
+  margin: 0;
+}
+
+/* 選單按鈕項目：縮小上下間距 (padding: 2px 10px; margin: 0; min-height: 20px;) */
+popover.menu modelbutton,
+popover modelbutton,
+popovermenu modelbutton,
+menu menuitem {
+  min-height: 20px;
+  padding: 2px 10px;
+  margin: 0;
+  border-radius: 4px;
+  border: none;
+  background-color: transparent;
+  color: @text;
+  transition: none;
+  transform: none;
+}
+
+popover.menu modelbutton:hover,
+popover modelbutton:hover,
+popovermenu modelbutton:hover,
+menu menuitem:hover {
+  min-height: 20px;
+  padding: 2px 10px;
+  margin: 0;
+  border-radius: 4px;
+  border: none;
+  background-color: @surface0;
+  color: @lavender;
+  transition: none;
+  transform: none;
+}
+
+popover label,
+popover label:hover,
+popovermenu label,
+popovermenu label:hover,
+menu label,
+menu label:hover {
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  transition: none;
+}
+
+/* ----------------------------------------------------
+ * 懸浮提示視窗 (Tooltips)
+ * 確保 5, 3, 7 等數字在 Tooltip 中有足夠空間，頂端不被裁剪
+ * ---------------------------------------------------- */
+tooltip,
+tooltip.background,
+window.background.tooltip,
+.tooltip {
+  background-color: @base;
+  background: @base;
+  color: @text;
+  border: 1px solid @surface1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+tooltip label {
+  background-color: transparent;
+  color: @text;
+  font-size: 14px;
+  padding: 2px 4px;
+}
+
+.popup {
+  background-color: @base;
+  background: @base;
+  color: @text;
+  border: 1px solid @surface1;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ----------------------------------------------------
+ * 右側膠囊群組：Bluetooth -> Network -> Pulseaudio -> Clock
+ * (整體相連成單一膠囊，中間完全無圓角、無接縫)
+ * ---------------------------------------------------- */
+#bar #bluetooth,
+#bar #bluetooth button,
+#bar button#bluetooth,
+#bar .bluetooth,
+#bar #network,
+#bar #pulseaudio,
+#bar #clock,
+#bar #clock button,
+#bar button#clock,
+#bar .clock {
+  background: @surface0;
+  background-color: @surface0;
+  padding: 6px 10px;
+  margin: 5px 0;
+  border-radius: 0;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+#bluetooth *,
+#network *,
+#pulseaudio *,
+#clock * {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+/* 隱藏 bluetooth 原生 image，只保留字元圖示 */
+#bluetooth image,
+#bluetooth .icon,
+.bluetooth image,
+.bluetooth .icon {
+  -gtk-icon-size: 0px;
+  min-width: 0;
+  min-height: 0;
+  font-size: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+/* 膠囊最左邊：藍牙帶左側大圓角 */
+#bar #bluetooth,
+#bar #bluetooth button,
+#bar button#bluetooth,
+#bar .bluetooth {
+  color: @peach;
+  background: @surface0;
+  background-color: @surface0;
+  border-radius: 9999px 0 0 9999px;
+  padding-left: 16px;
+}
+
+/* 膠囊中間：網路 (無任何圓角) */
+#bar #network {
+  color: @yellow;
+  border-radius: 0;
+}
+
+/* 膠囊中間：音量 (無任何圓角) */
+#bar #pulseaudio {
+  color: @green;
+  border-radius: 0;
+}
+
+/* 膠囊最右邊：時鐘帶右側大圓角 */
+#bar #clock,
+#bar #clock button,
+#bar button#clock,
+#bar .clock {
+  color: @sky;
+  font-weight: bold;
+  background: @surface0;
+  background-color: @surface0;
+  border-radius: 0 9999px 9999px 0;
+  margin-right: 0.5rem;
+  padding-right: 16px;
+}
+
+#bar #bluetooth:hover,
+#bar #bluetooth button:hover,
+#bar button#bluetooth:hover,
+#bar .bluetooth:hover,
+#bar #clock:hover,
+#bar #clock button:hover,
+#bar button#clock:hover,
+#bar .clock:hover {
+  background: @surface0;
+  background-color: @surface0;
+  box-shadow: none;
+  border: none;
+}
+
+/* ----------------------------------------------------
+ * 右側獨立島嶼：Power 按鈕 (正圓形 + 去除選取框)
+ * ---------------------------------------------------- */
+#custom-power {
+  background: transparent;
+  padding: 0;
+  margin: 5px 0.5rem 5px 0;
+  border: none;
+  box-shadow: none;
+}
+
+#custom-power button,
+#power-btn {
+  color: @sapphire;
+  background: @surface0;
+  border-radius: 9999px;
+  min-width: 38px;
+  max-width: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  outline-width: 0;
+}
+
+#power-btn:focus,
+#power-btn:focus-visible,
+#power-btn:active {
+  outline: none;
+  outline-width: 0;
+  box-shadow: none;
+  border: none;
+}
+
+#power-btn label {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
